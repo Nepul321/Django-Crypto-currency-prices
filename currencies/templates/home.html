@@ -1,0 +1,70 @@
+<!doctype html>
+{% load humanize %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+
+    <title>Top 100 crypto currencies</title>
+
+  </head>
+  <body>
+  	<br/><br/>
+  	<div class="container">
+  		<table class="table table-striped table-hover table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">Ticker Symbol</th>
+      <th scope="col">Current price</th>
+      <th scope="col">Rank</th>
+      <th scope="col">Name</th>
+      <th scope="col">Percent change 24 h</th>
+      <th scope="col">Percent change 1 h</th>
+      <th scope="col">Percent change 7 days</th>
+      <th scope="col">Market capacity</th>
+      <th scope="col">Id</th>
+    </tr>
+  </thead>
+  <tbody>
+  	  {% for i in data %}
+  	    <tr>
+  	    	<th scope="row">{{i.symbol}}</th>
+		    <td>${{i.price_usd|intcomma}}</td>
+		    <td>{{i.rank|intcomma}}</td>
+		    <td>{{i.nameid|capfirst}}</td>
+		    {% if my_string in i.percent_change_24h %}
+		    <td class="text-danger">{{i.percent_change_24h|intcomma}}%</td>
+		    {% else %}
+             <td class="text-success">+{{i.percent_change_24h|intcomma}}%</td>
+		    {% endif %}
+
+		    {% if my_string in i.percent_change_1h %}
+		    <td class="text-danger">{{i.percent_change_1h|intcomma}}%</td>
+		    {% else %}
+             <td class="text-success">+{{i.percent_change_1h|intcomma}}%</td>
+		    {% endif %}
+
+		    {% if my_string in i.percent_change_7d %}
+		    <td class="text-danger">{{i.percent_change_7d|intcomma}}%</td>
+		    {% else %}
+             <td class="text-success">+{{i.percent_change_7d|intcomma}}%</td>
+		    {% endif %}
+		    <td>${{i.market_cap_usd|intcomma}}</td>
+        <td>
+          {{ i.id }}
+        </td>
+  	    </tr>
+
+      {% endfor %}
+  </tbody>
+</table>
+    <button class="btn btn-secondary" onclick="location.reload()">Update prices</button>
+    <a class="btn btn-outline-secondary" href="{% url 'search' %}">Search</a>
+    <br/><br/>
+  	</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
+  </body>
+</html>
+

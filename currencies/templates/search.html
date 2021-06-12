@@ -1,0 +1,63 @@
+<!doctype html>
+{% load humanize %}
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <title>Search</title>
+  </head>
+  <body>
+      <br/>
+      <div class="container">
+        <h1>Search Crypto currencies</h1>
+        <br/>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <input type="text" class="form-control" placeholder="Search using id" name="symbol">
+            <br/>
+            <button class="btn btn-secondary">Search</button>
+        </form>
+        <br/><br/>
+        {% if price %}
+        {% for i in price %}
+        <div class="jumbotron">
+            <h1 class="display-4">{{ i.name }}</h1>
+            <p>Ticker symbol : {{i.symbol}}</p>
+            <p>Id : {{i.id}}</p>
+            <p>Price : ${{i.price_usd|intcomma}}</p>
+            <p>Rank : {{i.rank|intcomma}}</p>
+            <p>NameId : {{i.nameid|capfirst}}</p>
+            {% if mystring in i.percent_change_24h %}
+            <p class="text-danger">Percent Change 24h : {{ i.percent_change_24h|intcomma }}%</p>
+            {% else %}
+            <p class="text-success">Percent Change 24h : +{{ i.percent_change_24h|intcomma }}%</p>
+            {% endif %}
+            {% if mystring in i.percent_change_1h %}
+            <p class="text-danger">Percent Change 1h : {{ i.percent_change_1h|intcomma }}%</p>
+            {% else %}
+            <p class="text-success">Percent Change 1h : +{{ i.percent_change_1h|intcomma }}%</p>
+            {% endif %}
+            {% if mystring in i.percent_change_7d %}
+            <p class="text-danger">Percent Change 7d : {{ i.percent_change_7d|intcomma }}%</p>
+            {% else %}
+            <p class="text-success">Percent Change 7d : +{{ i.percent_change_7d|intcomma }}%</p>
+            {% endif %}
+		    <p>Market cap : ${{i.market_cap_usd|intcomma}}</p>
+          </div>
+        {% endfor %}
+        {% endif %}
+        {% if message %}
+        <p>{{ message }}</p>
+        {% endif %}
+        <a href="/" class="btn btn-outline-secondary">Back to home</a>
+        <br/><br/>
+      </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+  </body>
+</html>
